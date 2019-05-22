@@ -10,6 +10,8 @@ services:
     ports:
       - "5432:5432"
     restart: unless-stopped
+    volumes:
+      - ~/school/books-db:/var/lib/postgresql/data
 
   pgadmin:
     links:
