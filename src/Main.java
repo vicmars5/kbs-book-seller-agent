@@ -6,7 +6,10 @@ import bookseller.Book;
 
 public class Main {
   public static void main (String args[]) {
-    // Main.getPostgresData();
+    System.out.println("Get postgres books");
+    Main.getPostgresData();
+
+    System.out.println("Get JSON books");
     Main.getJsonData();
   }
 
@@ -26,6 +29,9 @@ public class Main {
 
   private static void getJsonData () {
     BookSellerJson bookSellerJson = new BookSellerJson();
-    bookSellerJson.getBooks();
+    Book[] books = bookSellerJson.getBooks();
+		for (Book book : books) {
+      System.out.println(book.toString());
+		}
   }
 }
