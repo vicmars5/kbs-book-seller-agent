@@ -5,6 +5,10 @@ import bookseller.Book;
 
 public class Main {
   public static void main (String args[]) {
+    Main.getPostgresData();
+  }
+
+  private static void getPostgresData() {
     BookSellerPostgres bookSellerPostgres = new BookSellerPostgres();
 
     if (!bookSellerPostgres.isConnected()) {
