@@ -1,11 +1,13 @@
 package bookseller;
 
 import bookseller.BookSellerPostgres;
+import bookseller.BookSellerJson;
 import bookseller.Book;
 
 public class Main {
   public static void main (String args[]) {
-    Main.getPostgresData();
+    // Main.getPostgresData();
+    Main.getJsonData();
   }
 
   private static void getPostgresData() {
@@ -20,5 +22,10 @@ public class Main {
     for (Book book : books) {
       System.out.println(book.toString());
     }
+  }
+
+  private static void getJsonData () {
+    BookSellerJson bookSellerJson = new BookSellerJson();
+    bookSellerJson.getBooks();
   }
 }
