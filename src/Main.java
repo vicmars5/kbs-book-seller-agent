@@ -4,6 +4,8 @@ import bookseller.BookSellerPostgres;
 import bookseller.BookSellerJson;
 import bookseller.Book;
 
+import java.io.IOException;
+
 public class Main {
   public static void main (String args[]) {
     System.out.println("Get postgres books");
@@ -29,9 +31,13 @@ public class Main {
 
   private static void getJsonData () {
     BookSellerJson bookSellerJson = new BookSellerJson();
-    Book[] books = bookSellerJson.getBooks();
-		for (Book book : books) {
-      System.out.println(book.toString());
-		}
+    try {
+      Book[] books = bookSellerJson.getBooks();
+      for (Book book : books) {
+        System.out.println(book.toString());
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }
