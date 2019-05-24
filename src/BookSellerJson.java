@@ -13,7 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class BookSellerJson {
-  private static final String JSON_EXAMPLE = "{\"books\":[{\"id\":1,\"name\":\"El Conde de Monte-Cristo\",\"pricing\":100},{\"id\":2,\"name\":\"Game of Thrones\",\"pricing\":100},{\"id\":3,\"name\":\"Los Tres Mosqueteros\",\"pricing\":130},{\"id\":4,\"name\":\"La Biblia\",\"pricing\":300}]}";
   private static final String FILE_PATH = "/home/victor/school/books.json";
 
   public Book[] getBooks () throws IOException {
