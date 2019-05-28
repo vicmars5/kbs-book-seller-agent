@@ -33,20 +33,19 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 
 import java.util.*;
-import java.io.IOException;
 
-import bookseller.BookSellerCsv;
+import bookseller.BookSellerPostgres;
 
-public class BookSellerBarnesNobleCsvAgent extends Agent {
+public class BookSellerAmazonSqlAgent extends Agent {
 	// The catalogue of books for sale (maps the title of a book to its price)
 	private Hashtable catalogue;
-  private BookSellerCsv bookSellerCsv;
+  private BookSellerPostgres bookSellerPostgres;
 
 	// Put agent initializations here
 	protected void setup() {
 		// Create the catalogue
 		catalogue = new Hashtable();
-    this.bookSellerCsv = new BookSellerCsv();
+    this.bookSellerPostgres = new BookSellerPostgres();
 
 		// Register the book-selling service in the yellow pages
 		DFAgentDescription dfd = new DFAgentDescription();
@@ -72,16 +71,12 @@ public class BookSellerBarnesNobleCsvAgent extends Agent {
 	}
 
   private void readBooks () {
-    try {
-      Book[] books = this.bookSellerCsv.getBooks();
-      for (Book book : books) {
-        this.updateCatalogue(
-          book.getName(),
-          (int) book.getPricing()
-        );
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
+    Book[] books = this.bookSellerPostgres.getBooks();
+    for (Book book : books) {
+      this.updateCatalogue(
+        book.getName(),
+        (int) book.getPricing()
+      );
     }
   }
 
@@ -106,7 +101,7 @@ public class BookSellerBarnesNobleCsvAgent extends Agent {
 			public void action() {
 				catalogue.put(title, new Integer(price));
 				System.out.println(
-            "BookSellerCsv: " + title +
+            "BookSellerPostgres: " + title +
             " inserted into catalogue. Price = " + price
         );
 			}
