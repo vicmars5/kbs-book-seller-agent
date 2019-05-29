@@ -76,11 +76,11 @@ public class BookSellerPostgres {
     }
   }
 
-  public void updateBookByName (String name, int stock) {
+  public void discountFromStock(String name) {
     try {
-      PreparedStatement statement = this.connection.prepareStatement("UPDATE books SET stock=? WHERE name=?");
-      statement.setInt(1, stock);
-      statement.setString(2, name);
+      PreparedStatement statement = this.connection
+        .prepareStatement("UPDATE books SET stock=stock - 1 WHERE name=?");
+      statement.setString(1, name);
       statement.executeUpdate();
     } catch (SQLException e) {
       e.printStackTrace();

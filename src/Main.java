@@ -1,27 +1,31 @@
 package bookseller;
 
 import bookseller.BookSellerPostgres;
-import bookseller.BookSellerJson;
-import bookseller.BookSellerCsv;
+import bookseller.BookSellerJson; import bookseller.BookSellerCsv;
 import bookseller.Book;
 
 import java.io.IOException;
 
 public class Main {
   private static BookSellerPostgres bookSellerPostgres = null;
+  private static BookSellerJson bookSellerJson = null;
 
   public static void main (String args[]) {
     
+    Main.bookSellerJson = new BookSellerJson();
     Main.bookSellerPostgres = new BookSellerPostgres();
 
     System.out.println("Get postgres books");
     Main.getPostgresData();
-    System.out.println("Update postgres books");
-    Main.updatePostgresData();
-    System.out.println("Updated.");
+    //System.out.println("Update postgres books");
+    //Main.updatePostgresData();
+    //System.out.println("Updated.");
 
     System.out.println("Get JSON books");
     Main.getJsonData();
+    //System.out.println("Update JSON books");
+    //Main.updateJsonData();
+    //System.out.println("Updated.");
 
     System.out.println("Get CSV books");
     Main.getCsvData();
@@ -40,19 +44,22 @@ public class Main {
   }
 
   private static void updatePostgresData() {
-    Main.bookSellerPostgres.updateBookByName("La Biblia", 10);
+    Main.bookSellerPostgres.discountFromStock("La Biblia");
   }
 
   private static void getJsonData () {
-    BookSellerJson bookSellerJson = new BookSellerJson();
     try {
-      Book[] books = bookSellerJson.getBooks();
+      Book[] books = Main.bookSellerJson.getBooks();
       for (Book book : books) {
         System.out.println(book.toString());
       }
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  private static void updateJsonData () {
+    Main.bookSellerJson.discountFromStock("La Biblia");
   }
 
   private static void getCsvData() {
