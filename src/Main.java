@@ -9,6 +9,7 @@ import java.io.IOException;
 public class Main {
   private static BookSellerPostgres bookSellerPostgres = null;
   private static BookSellerJson bookSellerJson = null;
+  private static BookSellerCsv bookSellerCsv = null;
 
   public static void main (String args[]) {
     
@@ -29,6 +30,9 @@ public class Main {
 
     System.out.println("Get CSV books");
     Main.getCsvData();
+    //System.out.prntln("Update CSV books");
+    //Main.updateCsvData();
+    //System.out.println("Updated.");
   }
 
   private static void getPostgresData() {
@@ -63,7 +67,7 @@ public class Main {
   }
 
   private static void getCsvData() {
-    BookSellerCsv bookSellerCsv = new BookSellerCsv();
+    Main.bookSellerCsv = new BookSellerCsv();
     try {
       Book[] books = bookSellerCsv.getBooks();
       for (Book book : books) {
@@ -72,5 +76,9 @@ public class Main {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+  
+  private static void updateCsvData () {
+    Main.bookSellerCsv.discountFromStock("La Biblia");
   }
 }

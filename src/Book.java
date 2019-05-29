@@ -34,7 +34,7 @@ public class Book {
     return this.pricing;
   }
 
-  public int getSotck () {
+  public int getStock() {
     return this.stock;
   }
 
