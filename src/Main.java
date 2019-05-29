@@ -8,9 +8,17 @@ import bookseller.Book;
 import java.io.IOException;
 
 public class Main {
+  private static BookSellerPostgres bookSellerPostgres = null;
+
   public static void main (String args[]) {
+    
+    Main.bookSellerPostgres = new BookSellerPostgres();
+
     System.out.println("Get postgres books");
     Main.getPostgresData();
+    System.out.println("Update postgres books");
+    Main.updatePostgresData();
+    System.out.println("Updated.");
 
     System.out.println("Get JSON books");
     Main.getJsonData();
@@ -20,17 +28,19 @@ public class Main {
   }
 
   private static void getPostgresData() {
-    BookSellerPostgres bookSellerPostgres = new BookSellerPostgres();
-
-    if (!bookSellerPostgres.isConnected()) {
+    if (!Main.bookSellerPostgres.isConnected()) {
       System.out.println("Sorry we couldn't connected to the database.");
       return;
     }
     
-    Book[] books = bookSellerPostgres.getBooks();
+    Book[] books = Main.bookSellerPostgres.getBooks();
     for (Book book : books) {
       System.out.println(book.toString());
     }
+  }
+
+  private static void updatePostgresData() {
+    Main.bookSellerPostgres.updateBookByName("La Biblia", 10);
   }
 
   private static void getJsonData () {
