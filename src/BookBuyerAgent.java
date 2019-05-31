@@ -42,30 +42,30 @@ public class BookBuyerAgent extends Agent {
 	// Put agent initializations here
 	protected void setup() {
 		// Printout a welcome message
-		System.out.println("Hallo! Buyer-agent "+getAID().getName()+" is ready.");
+		System.out.println("BUYER: Hallo! Buyer-agent "+getAID().getName()+" is ready.");
 
 		// Get the title of the book to buy as a start-up argument
 		Object[] args = getArguments();
 		if (args != null && args.length > 0) {
 			targetBookTitle = (String) args[0];
-			System.out.println("Target book is "+targetBookTitle);
+			System.out.println("BUYER: Target book is "+targetBookTitle);
 
 			// Add a TickerBehaviour that schedules a request to seller agents every minute
-			addBehaviour(new TickerBehaviour(this, 60000) {
+			addBehaviour(new TickerBehaviour(this, 15000) {
 				protected void onTick() {
-					System.out.println("Trying to buy "+targetBookTitle);
+					System.out.println("BUYER: Trying to buy "+targetBookTitle);
 					// Update the list of seller agents
 					DFAgentDescription template = new DFAgentDescription();
 					ServiceDescription sd = new ServiceDescription();
-					sd.setType("book-selling");
+					sd.setType("book-search");
 					template.addServices(sd);
 					try {
 						DFAgentDescription[] result = DFService.search(myAgent, template); 
-						System.out.println("Found the following seller agents:");
+						System.out.println("BUYER: Found the following searcher agents:");
 						sellerAgents = new AID[result.length];
 						for (int i = 0; i < result.length; ++i) {
 							sellerAgents[i] = result[i].getName();
-							System.out.println(sellerAgents[i].getName());
+							System.out.println("BUYER: " + sellerAgents[i].getName());
 						}
 					}
 					catch (FIPAException fe) {
@@ -75,11 +75,11 @@ public class BookBuyerAgent extends Agent {
 					// Perform the request
 					myAgent.addBehaviour(new RequestPerformer());
 				}
-			} );
+			});
 		}
 		else {
 			// Make the agent terminate
-			System.out.println("No target book title specified");
+			System.out.println("BUYER: No target book title specified");
 			doDelete();
 		}
 	}
@@ -87,7 +87,7 @@ public class BookBuyerAgent extends Agent {
 	// Put agent clean-up operations here
 	protected void takeDown() {
 		// Printout a dismissal message
-		System.out.println("Buyer-agent "+getAID().getName()+" terminating.");
+		System.out.println("BUYER: Buyer-agent "+getAID().getName()+" terminating.");
 	}
 
 	/**
@@ -163,12 +163,12 @@ public class BookBuyerAgent extends Agent {
 					// Purchase order reply received
 					if (reply.getPerformative() == ACLMessage.INFORM) {
 						// Purchase successful. We can terminate
-						System.out.println(targetBookTitle+" successfully purchased from agent "+reply.getSender().getName());
-						System.out.println("Price = "+bestPrice);
+						System.out.println("BUYER: " + targetBookTitle+" successfully purchased from agent "+reply.getSender().getName());
+						System.out.println("BUYER: Price = "+bestPrice);
 						myAgent.doDelete();
 					}
 					else {
-						System.out.println("Attempt failed: requested book already sold.");
+						System.out.println("BUYER: Attempt failed: requested book already sold.");
 					}
 
 					step = 4;
@@ -182,7 +182,7 @@ public class BookBuyerAgent extends Agent {
 
 		public boolean done() {
 			if (step == 2 && bestSeller == null) {
-				System.out.println("Attempt failed: "+targetBookTitle+" not available for sale");
+				System.out.println("BUYER: Attempt failed: "+targetBookTitle+" not available for sale");
 			}
 			return ((step == 2 && bestSeller == null) || step == 4);
 		}
