@@ -4,6 +4,7 @@ public class Book {
   private int id;
   private String name;
   private double pricing;
+  private int stock = 0;
 
   public void setId (int id) {
     this.id = id;
@@ -15,6 +16,10 @@ public class Book {
 
   public void setPricing (double pricing) {
     this.pricing = pricing;
+  }
+  
+  public void setStock (int stock) {
+    this.stock = stock;
   }
 
   public int getId () {
@@ -29,9 +34,14 @@ public class Book {
     return this.pricing;
   }
 
+  public int getStock() {
+    return this.stock;
+  }
+
   public String toString() {
     return String.valueOf(this.id) + " - " 
       + this.name + " - "
-      + String.valueOf(this.pricing);
+      + String.valueOf(this.pricing) + " - "
+      + this.stock;
   }
 }
