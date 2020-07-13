@@ -1,0 +1,24 @@
+version: '2.1'
+
+services:
+  postgres:
+    image: postgres:11
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: boook_seller
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    volumes:
+      - ~/school/books-db:/var/lib/postgresql/data
+
+  pgadmin:
+    links:
+      - postgres:postgres
+    image: fenglc/pgadmin4
+    volumes:
+       - ~/school/pgadmin:/root/.pgadmin
+    ports:
+      - "5050:5050"
+    restart: unless-stopped
